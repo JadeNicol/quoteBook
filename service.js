@@ -1,6 +1,12 @@
 var app = angular.module('quoteBook');
 
-app.service('service', function(){
+app.service('service', function($cookies){
+
+	this.saveData = function(){
+		$cookies.quotes = JSON.stringify(quotes);
+		console.log($cookies);
+	}
+
 	this.getData = function(){
 		return quotes;
 	}
@@ -8,18 +14,25 @@ app.service('service', function(){
 		if (quoteObject.text && quoteObject.author) {
 			quotes.push(quoteObject);
 		};
-
-	this.removeData = function(quoteObject){
-		if (quoteObject.text && quoteObject.author){}
+	}
+	this.removeData = function(quote){
+		// if(quotes.indexOf(quote) !== -1){
+		// 	quotes.splice(quotes.indexOf(quote), 1)
+		// }
+		console.log(quote);
+		for(var i = 0; i < quotes.length; i++){
+			console.log(quotes[i].text)
+			if(quotes[i].text === quote){
+				quotes.splice(i, 1);
+			};
+		}
 	};
 
-	this.add = function(quote){
-		list.push(quote);
-	}
+	var cookieQuotes = JSON.parse($cookies.quotes);
 
-	}
+	console.log(cookieQuotes);
 
-	var quotes = [
+	var quotes =  cookieQuotes || [
 
     { text: '\"Life isn\'t about getting and having, it\'s about giving and being.\"', author: 'Kevin Kruse'},
 
